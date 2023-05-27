@@ -23,7 +23,7 @@ echo "CPU usage is higher than $THRESHOLD_CPU%, it's $cpu_usage%"
 
 if (( $(echo "$cpu_usage > $THRESHOLD_CPU" |bc -l) )); then
   echo "CPU usage is higher than $THRESHOLD_CPU%, it's $cpu_usage%" | \
-  #mail -s "High CPU usage alert" $EMAIL
+  mail -s "High CPU usage alert" $EMAIL
   checks_passed=false
 fi
 
@@ -34,7 +34,7 @@ echo "Memory Usage: $mem_usage"
 
 if (( $(echo "$mem_usage > $THRESHOLD_MEM" |bc -l) )); then
   echo "Memory usage is higher than $THRESHOLD_MEM%, it's $mem_usage%" | \
-  #mail -s "High Memory usage alert" $EMAIL
+  mail -s "High Memory usage alert" $EMAIL
   checks_passed=false
 fi
 
@@ -45,7 +45,7 @@ echo "Disk Usage: $disk_usage"
 
 if (( $(echo "$disk_usage > $THRESHOLD_DISK" |bc -l) )); then
   echo "Disk usage is higher than $THRESHOLD_DISK%, it's $disk_usage%" | \
-  #mail -s "High Disk usage alert" $EMAIL
+  mail -s "High Disk usage alert" $EMAIL
   checks_passed=false
 fi
 
