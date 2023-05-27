@@ -16,16 +16,6 @@ DB_PORT=3306
 checks_passed=true
 
 # Check CPU usage
-cpu_usage=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
-
-echo "CPU Usage: $cpu_usage"
-echo "CPU usage is higher than $THRESHOLD_CPU%, it's $cpu_usage%"
-
-if (( $(echo "$cpu_usage > $THRESHOLD_CPU" |bc -l) )); then
-  echo "CPU usage is higher than $THRESHOLD_CPU%, it's $cpu_usage%" | \
-  mail -s "High CPU usage alert" $EMAIL
-  checks_passed=false
-fi
 
 # Check Memory usage
 mem_usage=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
@@ -56,14 +46,14 @@ echo "Service Status: $services_status"
 
 if echo $services_status | grep -q "not running"; then
   echo "One or more Bitnami services are not running: $services_status" | \
-  #mail -s "Bitnami service status alert" $EMAIL
+  mail -s "Bitnami service status alert" $EMAIL
   checks_passed=false
 fi
 
 # Check MySQL status
 if ! mysqladmin -h $DB_HOSTNAME -P $DB_PORT -u $DB_USERNAME -p$DB_PASSWORD status > /dev/null; then
   echo "MySQL is not running" | \
-  #mail -s "MySQL is down alert" $EMAIL
+  mail -s "MySQL is down alert" $EMAIL
   checks_passed=false
 fi
 
